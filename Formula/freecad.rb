@@ -4,11 +4,13 @@ class Freecad < Formula
   desc "Parametric 3D modeler"
   homepage "https://www.freecadweb.org"
   version "0.20.0"
+  revision 1
   license "GPL-2.0-only"
   head "https://github.com/freecad/FreeCAD.git", branch: "master", shallow: false
 
   stable do
-    url "https://github.com/FreeCAD/FreeCAD.git", using: :git, revision: "b4cb34c4d34d965838290490e478c16c84b655e7"
+    url "https://github.com/FreeCAD/FreeCAD/archive/refs/tags/0.20beta1.tar.gz"
+    sha256 "f89b53d91058c91ea261f8f730da13398c38d9534742cc35e04fa21059a28747"
   end
 
   resource "cycler" do
@@ -77,7 +79,7 @@ class Freecad < Formula
     python_home = python.opt_prefix/"Frameworks/Python.framework/Versions/3.9"
     site_packages = Language::Python.site_packages(python.opt_bin/"python3")
     venv = virtualenv_create(prefix, python.opt_bin/"python3")
-    venv.pip_install resources
+    venv.pip_install_and_link resources
 
     # Prepare cmake FindPython3.cmake module pointing to venv python
     (buildpath/"cMake/FindPython3.cmake").write <<-EOF
